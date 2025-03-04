@@ -13,3 +13,41 @@ Route::get('/login', function () {
 Route::get('/signup', function () {
     return view('signup');
 });
+
+// Student View routes
+Route::get('/studInvestment', function () {
+    return view('studentViews/investmentOpt');
+});
+
+Route::get('/studDashboard', function () {
+    return view('studentViews/studDashboard');
+});
+
+Route::get('/studProject', function () {
+    return view('studentViews/studProject');
+});
+
+Route::get('/studReport', function () {
+    return view('studentViews/studReports');
+});
+
+// Teacher View routes
+Route::get('/teachInvestment', function () {
+    return view('teacherViews/InvestmentOpt');
+});
+
+Route::get('/ManageStudents', function () {
+    return view('teacherViews/manageStud');
+});
+
+Route::get('/Projects', function () {
+    return view('teacherViews/projects');
+});
+
+Route::get('/teachReports', function () {
+    return view('teacherViews/reports');
+});
+
+Route::get('/teacherDashboard', function () {
+    return view('teacherViews/teachDashboard');
+});
