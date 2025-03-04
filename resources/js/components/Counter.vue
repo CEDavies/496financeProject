@@ -8,6 +8,6 @@
     {{ count }}
 
     <button @click="count++">
-        Add
+        Add Be the right one
     </button>
 </template>
