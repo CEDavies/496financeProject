@@ -11,7 +11,7 @@
     </head>
     <body class="font-sans antialiased dark:bg-white">
         <div id="studDashboard">
-            <studInvestment/>
+            <StudDashboard />
         </div>
     </body>
 </html>

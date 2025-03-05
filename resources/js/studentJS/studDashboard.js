@@ -1,8 +1,10 @@
+import '../bootstrap'
 import studDashboard from '../components/student/studDashboard.vue';
 import { createApp } from 'vue'
 
-const app = createApp()
+// for non .app views - need to have the vuejs in the create app
+const app = createApp(studDashboard); //StudDashboard is the root component
 
-app.component('studDashboard',studDashboard)
+app.component('StudDashboard',studDashboard)
 
 app.mount('#studDashboard')

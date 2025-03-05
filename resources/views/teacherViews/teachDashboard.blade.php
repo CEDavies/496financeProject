@@ -7,7 +7,7 @@
         <title>Teacher Dashboard</title>
         <!-- The include counted as a view and so it wouldn't work on the main php page it was trying to load-->
     
-        @vite(['resources/css/app.css', 'resources/js/teacherJS/teacherDashboard.js'])
+        @vite(['resources/css/app.css', 'resources/js/teacherJS/teachDashboard.js'])
     </head>
     <body class="font-sans antialiased dark:bg-white">
         <div id="teachDashboard">

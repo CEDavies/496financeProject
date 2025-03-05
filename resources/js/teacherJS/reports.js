@@ -1,8 +1,8 @@
-import './bootstrap';
+import '../bootstrap';
 import reports from '../components/teacher/reports.vue';
 import { createApp } from 'vue'
 
-const app = createApp()
+const app = createApp(reports)
 
 app.component('reports',reports)
 
