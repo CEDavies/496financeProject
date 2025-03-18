@@ -2,6 +2,29 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\DB;
+
+//This is an example query to show the database connection
+Route::get('/show-queries', function () {
+    // Enable query log
+    DB::enableQueryLog();
+
+    // Perform some database operations
+    $users = DB::table('client')->get("client_id");
+
+    // Get the executed queries
+    $queries = DB::getQueryLog();
+
+    // Display in browser
+    return response()->json($users);
+});
+
+
+//File Test - 3/16/25
+// routes/api.php
+Route::post('/studDashboard', [FileUploadController::class, 'upload']);
+
+//Webpages
 Route::get('/', function () {
     return view('welcome');
 });

@@ -1,4 +1,50 @@
-<script setup>
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      file: null,
+      uploading: false,
+      uploadSuccess: false,
+      uploadError: null,
+      filePath: '',
+    };
+  },
+  methods: {
+    handleFileUpload(event) {
+      this.file = event.target.files[0];
+    },
+    async uploadFile() {
+        if (!this.file) {
+        alert('Please select a file first');
+        return;
+        }
+
+        this.uploading = true;
+        this.uploadSuccess = false;
+        this.uploadError = null;
+
+        const formData = new FormData();
+        formData.append('file', this.file);
+
+        try {
+        const response = await axios.post('/upload', formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data',
+            },
+        });
+        
+        this.uploadSuccess = true;
+        this.filePath = response.data.path;
+        }catch (error) {
+            this.uploadError = error.response?.data?.message || 'Something went wrong';
+        } finally {
+            this.uploading = false;
+        }
+    },
+  },
+};
 </script>
 
 <template>
@@ -21,9 +67,18 @@
             <!-- Project upload -->
             <div class="bg-white rounded shadow p-4 mb-4">
               <h2 class="text-lg font-semibold mb-2">Project upload</h2>
-                <form action="/upload" method="POST" enctype="multipart/form-data"> 
+                <form action="upload" method="POST" enctype="multipart/form-data"> 
                     <div class="border-2 border-dashed border-gray-400 p-8 text-center">
-                        <input type="file" name="projectFile" class="mb-4">
+                        <input type="file" name="projectFile" @change="handleFileUpload" class="mb-4">
+                        <button type="submit" @click="uploadFile" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">Upload</button>
+
+                        <div v-if="uploading">Uploading...</div>
+                        <div v-if="uploadSuccess">
+                            File uploaded successfully! Path: {{ filePath }}
+                        </div>
+                        <div v-if="uploadError" class="error">
+                            Error: {{ uploadError }}
+                        </div>
                     </div>
                 </form>
             </div>
