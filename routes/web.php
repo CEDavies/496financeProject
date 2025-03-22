@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\FileUpload;
+use App\Http\Middleware\VerifyCsrfToken;
 
 //This is an example query to show the database connection
 Route::get('/show-queries', function () {
@@ -22,7 +25,7 @@ Route::get('/show-queries', function () {
 
 //File Test - 3/16/25
 // routes/api.php
-Route::post('/studDashboard', [FileUploadController::class, 'upload']);
+Route::post('/studDashboard', [FileUpload::class, 'upload']);
 
 //Webpages
 Route::get('/', function () {
@@ -41,6 +44,13 @@ Route::get('/signup', function () {
 Route::get('/studDashboard', function () {
     return view('studentViews/studDashboard');
 });
+
+//Route::post('/studDashboard', [FileUpload::class, 'store'])->name('file.store');
+
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::post('/studDashboard', [FileUpload::class, 'store'])->name('file.store');
+});
+
 
 
 // Teacher View routes
