@@ -38,6 +38,12 @@ return [
             'report' => false,
         ],
 
+        // File system upload Test 1
+        'uploads' => [
+            'driver' => 'local',
+            'root' => storage_path().'/files/uploads',
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
