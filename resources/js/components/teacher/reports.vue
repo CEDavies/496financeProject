@@ -25,6 +25,7 @@
       <table class="w-full border-collapse border-2 border-gray-300">
         <caption>
           <div class="py-2 text-center text-lg font-semibold">Projects</div>
+          <input type="hidden" name="_token" v-bind:value="csrf"> 
         </caption>
         <thead>
           <tr class="bg-gray-200">

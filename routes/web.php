@@ -13,7 +13,7 @@ Route::get('/show-queries', function () {
     DB::enableQueryLog();
 
     // Perform some database operations
-    $users = DB::table('client')->get("client_id");
+    $what = DB::table('project')->get("teacher_id");
 
     // Get the executed queries
     $queries = DB::getQueryLog();
@@ -22,10 +22,6 @@ Route::get('/show-queries', function () {
     return response()->json($users);
 });
 
-
-//File Test - 3/16/25
-// routes/api.php
-Route::post('/studDashboard', [FileUpload::class, 'upload']);
 
 //Webpages
 Route::get('/', function () {
@@ -47,10 +43,10 @@ Route::get('/studDashboard', function () {
 
 //Route::post('/studDashboard', [FileUpload::class, 'store'])->name('file.store');
 
+//middleware - verifies the csrf token (required for security)
 Route::middleware([VerifyCsrfToken::class])->group(function () {
-    Route::post('/studDashboard', [FileUpload::class, 'store'])->name('file.store');
+    Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
 });
-
 
 
 // Teacher View routes

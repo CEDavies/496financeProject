@@ -7,13 +7,14 @@
 
         <title>Student Dashboard</title>
         <!-- The include counted as a view and so it wouldn't work on the main php page it was trying to load-->
-        @vite(['resources/css/app.css', 'resources\js\studentJS\studDashboard.js'])
+        @vite(['resources/css/app.css', 'resources\js\studentJS\studDashboard.js', 'resources/js/components/student/studDashboard.vue'])
 
     </head>
     <body class="font-sans antialiased dark:bg-white">
             <!-- Define a div with a Vue component -->
             <div id="studDashboard">
-                <studDashboard :file-upload-url="{{ json_encode(route('file.store')) }}"></studDashboard>
+                <!-- prop isn't passing?? -->
+                <stud-dashboard v-bind:file-upload-url="'{{ route('file.store') }}'"></stud-dashboard>
             </div>
 
     </body>
