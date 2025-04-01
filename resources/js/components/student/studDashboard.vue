@@ -1,9 +1,66 @@
-<script setup>
+<script>
+export default {
+    props: {
+        fileUploadUrl: {
+            type: String,
+            required: true,
+            default: 'studentViews/studDashboard',
+        },
+    },
+    setup(props) {
+        console.log(props.fileUploadUrl);
+    },
+    data(){
+        return {
+            file: null,
+            //csrf token
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            amount: 0,
+            //need to change to reflect the auto increments and foregin keys
+            projectId: 2,
+            teacherId: 1,
+            studentId: 2,
+        }
+    },
+    methods: {
+        handleFileChange(event) {
+            this.file = event.target.files[0]; // Store the file when the input changes
+        },
+        uploadFile() {
+            // Create a new FormData instance to send the file with the CSRF token
+            const formData = new FormData();
+            formData.append('project_filepath', this.file); // Append the file
+            formData.append('_token', this.csrf); // Append CSRF token
+            formData.append('initial_investment', this.amount);
+            formData.append('project_id', this.projectId);
+            formData.append('teacher_id', this.teacherId);
+            formData.append('student_id', this.studentId);
+            
+            
+            // Send the file using Axios 
+            //3/23/25 --'studentViews/studDashboard' works for private storage but not php database
+            axios.post(this.fileUploadUrl, formData)
+                .then(response => {
+                    // Handle the response from the server
+                    console.log('File uploaded successfully:', response.data);
+                    alert('File uploaded successfully!');
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error uploading file:', error);
+                    alert('Error uploading file');
+                });
+        },
+    }
+};
 </script>
 
 <template>
-  <!-- Navbar Container -->
-  <nav class="bg-blue-600 p-4">
+    <head>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+    </head>
+    <!-- Navbar Container -->
+    <nav class="bg-blue-600 p-4">
         <div class="container mx-auto flex items-center justify-between">
             <div class="text-white text-lg font-semibold">
                 StudentDashboard
@@ -20,18 +77,18 @@
         <section class="md:col-span-2">
             <!-- Project upload -->
             <div class="bg-white rounded shadow p-4 mb-4">
-              <h2 class="text-lg font-semibold mb-2">Project upload</h2>
-                <form action="/upload" method="POST" enctype="multipart/form-data"> 
-                    <div class="border-2 border-dashed border-gray-400 p-8 text-center">
-                        <input type="file" name="projectFile" class="mb-4">
-                    </div>
-                </form>
+              <h2 class="text-lg font-semibold mb-2">Project Upload</h2>
+                    <form @submit.prevent="uploadFile()" enctype="multipart/form-data">
+                        <input type="hidden" name="_token" v-bind:value="csrf"> 
+                        <input type="file" name="project_filepath" id="project_file" class="mx-4" @change="handleFileChange" required>
+                        <button type="submit" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">Upload</button>
+                    </form>
             </div>
 
             <!-- Investment amount input -->
             <div class="bg-white rounded shadow p-4">
                 <h2 class="text-lg font-semibold mb-2">Investment Amount</h2>
-                <input type="number" placeholder="Input Investment Amount" class="border rounded w-full p-2">
+                <input type="number" placeholder="Input Investment Amount" name="initial_investment" class="border rounded w-full p-2">
             </div>
         </section>
 

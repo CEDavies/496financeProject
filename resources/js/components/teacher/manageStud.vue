@@ -55,6 +55,7 @@
         </table>
 
         <div class="space-y-4">
+          <input type="hidden" name="_token" v-bind:value="csrf"> 
           <input type="search" class="border-2">
           <button type="button" class="mx-1 px-6 py-2 bg-green-500 text-white rounded-md">Search</button>
           <button type="button" class="px-6 py-2 bg-yellow-500 text-white rounded-md w-full">Add</button>

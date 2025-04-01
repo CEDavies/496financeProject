@@ -23,6 +23,7 @@
   <!-- Main body -->
   <div class="relative h-screen flex justify-center bg-gray-100">
     <div class="py-10 w-full max-w-2xl"> <h2 class="text-xl font-semibold m-4">Student Projects</h2>
+      <input type="hidden" name="_token" v-bind:value="csrf"> 
 
       <!-- Need to add JS for SQL Queries for table -->
       <table class="w-full border-collapse border-2 border-gray-300">

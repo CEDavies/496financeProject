@@ -30,6 +30,7 @@
     <!-- Centered content container -->
     <div class="relative z-20 py-10">
       <h2 class="text-xl font-semibold mb-4">Welcome to the Student Dashboard</h2>
+      <input type="hidden" name="_token" v-bind:value="csrf"> 
 
       <div class="md:col-span-2 bg-white rounded shadow w-full h-3/4 text-left">
         <h1 class="my-5 px-5 py-5">Students: ##</h1>
