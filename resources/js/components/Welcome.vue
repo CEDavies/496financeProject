@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
 <script setup>
 </script>
 
@@ -17,8 +20,13 @@
       <h2 class="text-xl font-semibold mb-4">Welcome, please login or sign up!</h2>
 
       <div class="space-x-20 px-10">
-        <button type="button" class="px-6 py-2 bg-blue-500 text-white rounded-md">Login</button>
+        <router-link to="/Login">
+          <button type="button" class="px-6 py-2 bg-blue-500 text-white rounded-md">Login</button>
+        </router-link>
+
+        <!--<router-link to="/Signup">-->
         <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-md">Sign Up</button>
+        <!--</router-link>-->
       </div>
     </div>
   </div>
