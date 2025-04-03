@@ -24,9 +24,9 @@ import VueRouter from 'vue-router';
           <button type="button" class="px-6 py-2 bg-blue-500 text-white rounded-md">Login</button>
         </router-link>
 
-        <!--<router-link to="/Signup">-->
-        <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-md">Sign Up</button>
-        <!--</router-link>-->
+        <RouterLink to="/Signup">
+          <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-md">Sign Up</button>
+        </RouterLink>
       </div>
     </div>
   </div>
