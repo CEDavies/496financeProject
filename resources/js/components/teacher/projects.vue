@@ -1,4 +1,13 @@
 <script setup>
+//setup the props
+const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
+  homeRoute: {required:true, type: String},
+  manageStud: {required:true, type: String},
+  manageInvest: {required:true, type: String},
+  projectRoute: {required:true, type: String}, 
+  reportRoute: {required:true, type: String},
+});
+
 </script>
 
 <template>
@@ -8,11 +17,11 @@
         Teacher Dashboard
       </div>
       <div class="space-x-20">
-        <a href="#" class="text-white hover:text-gray-300">Home</a>
-        <a href="#" class="text-white hover:text-gray-300">Manage Student</a>
-        <a href="#" class="text-white hover:text-gray-300">Manage Investment Options</a>
-        <a href="#" class="text-white hover:text-gray-300">Projects</a>
-        <a href="#" class="text-white hover:text-gray-300">Reports</a>
+        <a type="button" :href="homeRoute" class="text-white hover:text-gray-300">Home</a>
+        <a type="button" :href="manageStud" class="text-white hover:text-gray-300">Manage Student</a>
+        <a type="button" :href="manageInvest" class="text-white hover:text-gray-300">Manage Investment Options</a>
+        <a type="button" :href="projectRoute" class="text-white hover:text-gray-300">Projects</a>
+        <a type="button" :href="reportRoute" class="text-white hover:text-gray-300">Reports</a>
       </div>
       <button class="text-white bg-red-500 px-4 py-2 rounded-md hover:bg-red-600">
         Signout

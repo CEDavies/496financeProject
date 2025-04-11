@@ -11,8 +11,14 @@
         @vite(['resources/css/app.css', 'resources/js/teacherJS/manageStud.js'])
     </head>
     <body class="font-sans antialiased dark:bg-white">
-        <div id="manageStud">
-            <manageStud/>
+        <div id="manageStud"
+            home-route="{{ route('home') }}"
+            project-route="{{ route('projects') }}"
+            manage-stud="{{ route('manageStud') }}"
+            manage-invest="{{ route('manageInvest') }}"
+            report-route="{{ route('reports') }}"
+        >
+            <manage-stud/>
         </div>
     </body>
 </html>

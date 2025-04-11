@@ -11,8 +11,16 @@
         @vite(['resources/css/app.css', 'resources/js/teacherJS/teachDashboard.js'])
     </head>
     <body class="font-sans antialiased dark:bg-white">
-        <div id="teachDashboard">
-            <teachDashboard/>
-        </div>
+
+    <!-- props passed to be passed through (found by the js) -->
+    <div id="teachDashboard"
+            home-route="{{ route('home') }}"
+            project-route="{{ route('projects') }}"
+            manage-stud="{{ route('manageStud') }}"
+            manage-invest="{{ route('manageInvest') }}"
+            report-route="{{ route('reports') }}"
+            >
+        <teach-dashboard />
+    </div>
     </body>
 </html>

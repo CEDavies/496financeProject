@@ -26,15 +26,15 @@ Route::get('/show-queries', function () {
 //Webpages
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 
 Route::get('/signup', function () {
     return view('signup');
-});
+})->name('signup');
 
 // Student View routes
 Route::get('/studDashboard', function () {
@@ -52,20 +52,20 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 // Teacher View routes
 Route::get('/teachInvestment', function () {
     return view('teacherViews/InvestmentOpt');
-});
+})->name('manageInvest');
 
 Route::get('/manageStudents', function () {
     return view('teacherViews/manageStud');
-});
+})->name('manageStud');
 
 Route::get('/projects', function () {
     return view('teacherViews/projects');
-});
+})->name('projects');
 
 Route::get('/teachReports', function () {
     return view('teacherViews/reports');
-});
+})->name('reports');
 
 Route::get('/teacherDashboard', function () {
     return view('teacherViews/teachDashboard');
-});
+})->name('teachDash');

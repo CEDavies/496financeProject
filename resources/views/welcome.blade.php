@@ -13,7 +13,7 @@
     <body class="font-sans antialiased dark:bg-white">
         <div id="app">
             <!-- There can only be one vue per page? -->
-            <welcome />
+            <welcome :login-route="'{{ route('login') }}'" :signup-route="'{{ route('signup') }}'"/>
         </div>
     </body>
 </html>
