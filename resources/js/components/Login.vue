@@ -10,6 +10,10 @@ data(){
 
 <template>
   <!-- Main container to center everything -->
+  <head>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+    </head>
+  
   <div class="relative h-screen flex items-center justify-center bg-gray-100">
     
     <!-- Logo as a background or separate layered item -->
