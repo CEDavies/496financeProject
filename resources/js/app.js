@@ -7,3 +7,10 @@ const app = createApp();
 app.component('welcome', Welcome);
 
 app.mount('#app');
+
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router/index.js'
+
+
+createApp(App).use(router).mount('#app')
