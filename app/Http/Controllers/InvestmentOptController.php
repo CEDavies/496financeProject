@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class InvestmnetOptController extends Controller
 {
@@ -42,7 +43,7 @@ class InvestmnetOptController extends Controller
             }
 
             // Assuming your 'project' table has a column named 'project_filepath'
-            $pdfPath = $project->project_filepath;
+            //$pdfPath = $project->project_filepath;
 
 
         } catch (\Exception $dbException) {
