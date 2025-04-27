@@ -1,4 +1,7 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
 //setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
   homeRoute: {required:true, type: String},
@@ -8,6 +11,48 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   reportRoute: {required:true, type: String},
 });
 
+//want to get the information for getting the sepcific project from the database
+const student_id = ref(2); //static values for right now
+const teacher_id = ref(1);
+const project_id = ref(2);
+
+//need to get multiple options AHH
+const investment_ids = ref(1); //need to do
+const intialAmt = ref(0);
+
+const route = 'teacherViews/reports';
+//take it from student_investment then put it in portfilo
+
+// onMounted(() => {
+//   csrf.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+// });
+
+//gets the file from the database
+const getUploadedFile = () => {
+  let formData = new FormData();
+  formData.append('student_id', student_id.value);
+  formData.append('teacher_id', teacher_id.value);
+  formData.append('project_id', project_id.value);
+  const object = Object.fromEntries(formData.entries());
+  console.log(object); 
+  //formData.append('_token', this.csrf); // Append CSRF token
+
+  //need these ones in getting the file? could just be for the portfolio generation
+  // formData.append('investment_ids', investment_ids);
+  // formData.append('intialAmt', intialAmt);
+
+
+  //does a POST request
+  axios.post(route, formData)
+    .then(response => {
+      console.log('File Found Successfully', response.data);
+      alert('File Found successfully!');
+    })
+    .catch(error => {
+      console.error('Error finding file:', error);
+      alert('Error finding file');
+    });
+};
 </script>
 
 <template>
