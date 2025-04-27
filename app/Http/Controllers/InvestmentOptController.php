@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-class InvestmentOptController extends Controller
+class InvestmnetOptController extends Controller
 {
     public function extractInvestment(Request $request)
     {
