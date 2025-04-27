@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
-use App\Http\Controllers\InvestInvestmentOptController;
+use App\Http\Controllers\InvestmentOptController;
 use App\Http\Middleware\VerifyCsrfToken;
 
 //This is an example query to show the database connection
