@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
 use App\Http\Middleware\VerifyCsrfToken;
+use App\Http\Controllers\PDFExtractController;
 
 //This is an example query to show the database connection
 Route::get('/show-queries', function () {
@@ -41,8 +42,6 @@ Route::get('/studDashboard', function () {
     return view('studentViews/studDashboard');
 });
 
-//Route::post('/studDashboard', [FileUpload::class, 'store'])->name('file.store');
-
 //middleware - verifies the csrf token (required for security)
 Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
@@ -65,6 +64,10 @@ Route::get('/projects', function () {
 Route::get('/teachReports', function () {
     return view('teacherViews/reports');
 })->name('reports');
+
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::post('teacherViews/reports', [App\Http\Controllers\PDFExtractController::class,'extractData'])->name('file.extract');
+});
 
 Route::get('/teacherDashboard', function () {
     return view('teacherViews/teachDashboard');

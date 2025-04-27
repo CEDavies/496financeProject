@@ -1,4 +1,7 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
 //setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
   homeRoute: {required:true, type: String},
@@ -6,6 +9,10 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   manageInvest: {required:true, type: String},
   projectRoute: {required:true, type: String}, 
   reportRoute: {required:true, type: String},
+});
+
+onMounted(() => {
+  csrf.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 });
 
 </script>

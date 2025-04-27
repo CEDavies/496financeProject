@@ -9,6 +9,9 @@ data(){
 </script>
 
 <template>
+  <head>
+      <meta name="csrf-token" content="{{ csrf_token() }}">
+  </head>
   <!-- Main container to center everything -->
   <div class="relative h-screen flex items-center justify-center bg-gray-100">
     

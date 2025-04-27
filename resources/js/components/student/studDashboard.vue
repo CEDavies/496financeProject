@@ -15,7 +15,6 @@ export default {
             file: null,
             //csrf token
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            amount: 0,
             //need to change to reflect the auto increments and foregin keys
             projectId: 2,
             teacherId: 1,
@@ -25,6 +24,9 @@ export default {
     methods: {
         handleFileChange(event) {
             this.file = event.target.files[0]; // Store the file when the input changes
+        },
+        handleInputAmount(event){
+            this.amount = event.target.amount; //is this the correct variable
         },
         uploadFile() {
             // Create a new FormData instance to send the file with the CSRF token
@@ -88,7 +90,7 @@ export default {
             <!-- Investment amount input -->
             <div class="bg-white rounded shadow p-4">
                 <h2 class="text-lg font-semibold mb-2">Investment Amount</h2>
-                <input type="number" placeholder="Input Investment Amount" name="initial_investment" class="border rounded w-full p-2">
+                <input type="number" placeholder="Input Investment Amount" name="initial_investment"  @change="handleInputAmount" class="border rounded w-full p-2">
             </div>
         </section>
 
