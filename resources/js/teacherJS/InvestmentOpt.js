@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const app = createApp({
         components: {
-            'investment-opt': InvestmentOpt // Register the component locally
+            'investment-opt': InvestmentOpt, // Register the component locally
         },
         template: '<investment-opt :home-route="homeRoute" :project-route="projectRoute" :report-route="reportRoute" :manage-stud="manageStud" :manage-invest="manageInvest" />',
         data() {

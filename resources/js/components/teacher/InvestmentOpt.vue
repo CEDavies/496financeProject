@@ -10,6 +10,24 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   reportRoute: {required:true, type: String},
 });
 
+const investments=ref([]);
+
+const getInvest = async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/investments'); // Use the correct base URL
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    investments.value = await response.json();
+  } catch (error) {
+    console.error('Cannot get investments:', error);
+  }
+};
+
+onMounted(() => {
+  getInvest();
+});
+
 </script>
 
 <template>
@@ -53,6 +71,13 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
             </tr>
           </thead>
           <tbody>
+            <tr v-for="investment in investments" :key="investment.id">
+              <td class="border px-4 py-2">{{ investment.name }}</td>
+              <td class="border px-4 py-2">{{ investment.duration_year }}</td>
+              <td class="border px-4 py-2">{{ investment.interest_type }}</td>
+              <td class="border px-4 py-2">{{ investment.interest_rate }}</td>
+            </tr>
+            <!--
             <tr>
               <td class="border px-4 py-2">Name</td>
               <td class="border px-4 py-2">Duration</td>
@@ -65,12 +90,7 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
               <td class="border px-4 py-2">Interest Type</td>
               <td class="border px-4 py-2">Interest Rate</td>
             </tr>
-            <tr>
-              <td class="border px-4 py-2">Name</td>
-              <td class="border px-4 py-2">Duration</td>
-              <td class="border px-4 py-2">Interest Type</td>
-              <td class="border px-4 py-2">Interest Rate</td>
-            </tr>
+            -->
           </tbody>
         </table>
 

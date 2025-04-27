@@ -4,21 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class InvestmentOptController extends Controller
 {
-    public function getInvestments(Request $request)
+    public function getInvestments()
     {
-        // Get the investment options from the database
         try {
-            $investmentOptions = DB::table('investment_option')->get();
-        } catch (\Exception $dbException) {
-            Log::error('Database retrieval error', ['error' => $dbException->getMessage()]);
-            return response()->json(['message' => 'Database error', 'trace' => $dbException->getTraceAsString()], 500);
+            $investments = DB::table('investment_option')->get();
+            return response()->json($investments);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to fetch data', 'message' => $e->getMessage()], 500);
         }
 
-        // Return the investment options as JSON
-        return response()->json($investmentOptions);
     }
 
     /*
