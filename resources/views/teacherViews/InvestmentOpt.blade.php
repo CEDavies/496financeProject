@@ -16,9 +16,7 @@
             project-route="{{ route('projects') }}"
             manage-stud="{{ route('manageStud') }}"
             manage-invest="{{ route('manageInvest') }}"
-            report-route="{{ route('reports') }}"
-        >
-            <teach-investment/>
+            report-route="{{ route('reports') }}">
         </div>
     </body>
 </html>
