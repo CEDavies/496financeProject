@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 
 //setup the props
@@ -12,15 +12,12 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
 });
 
 //want to get the information for getting the sepcific project from the database
-const student_id = ref(2); //static values for right now
-const teacher_id = ref(1);
-const project_id = ref(2);
+const name = ref(2); //static values for right now
+const duration_year = ref(1);
+const interest_type = ref(2);
+const interest_rate = ref(2)
 
-//need to get multiple options AHH
-const investment_ids = ref(1); //need to do
-const intialAmt = ref(0);
-
-const route = 'teacherViews/reports';
+const route = 'teacherViews/InvestmentOpt';
 //take it from student_investment then put it in portfilo
 
 // onMounted(() => {
