@@ -1,4 +1,5 @@
 <script setup>
+import { ref, onMounted} from 'vue';
 //setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
   homeRoute: {required:true, type: String},
@@ -8,7 +9,7 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   reportRoute: {required:true, type: String},
 });
 
-/*
+
 const students=ref([]);
 
 const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -31,7 +32,7 @@ const getStud = async () => {
 
 onMounted(() => {
   getStud();
-});*/
+});
 </script>
 
 <template>
@@ -74,15 +75,10 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="border px-4 py-2">Student 1 Name</td>
-              <td class="border px-4 py-2">Project A</td>
-              <td class="border px-4 py-2">In Progress</td>
-            </tr>
-            <tr>
-              <td class="border px-4 py-2">Student 2 Name</td>
-              <td class="border px-4 py-2">Project B</td>
-              <td class="border px-4 py-2">Submitted</td>
+            <tr v-for="student in students" :key="student.id">
+              <td class="border px-4 py-2">{{ student.student_name }}</td>
+              <td class="border px-4 py-2">{{ student.project }}</td>
+              <td class="border px-4 py-2">{{ student.progress }}</td>
             </tr>
           </tbody>
         </table>
