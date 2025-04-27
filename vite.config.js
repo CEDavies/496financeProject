@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
-
+/*
 export default defineConfig({
     server: {
         hmr: {
@@ -29,3 +29,35 @@ export default defineConfig({
         },
     },
 });
+*/
+export default defineConfig({
+    server: {
+        hmr: {
+            host: 'localhost',
+        },
+        proxy: {
+            '/auth': {
+                target: 'http://localhost:8000',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/auth/, ''),
+            },
+            '/api': {
+                target: 'http://localhost:8000',
+                changeOrigin: true,
+            },
+        },
+    },
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+        vue(),
+    ],
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js',
+        },
+    },
+});
+
