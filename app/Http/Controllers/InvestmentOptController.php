@@ -7,6 +7,21 @@ use Illuminate\Http\Request;
 
 class InvestmentOptController extends Controller
 {
+    public function getInvestments(Request $request)
+    {
+        // Get the investment options from the database
+        try {
+            $investmentOptions = DB::table('investment_option')->get();
+        } catch (\Exception $dbException) {
+            Log::error('Database retrieval error', ['error' => $dbException->getMessage()]);
+            return response()->json(['message' => 'Database error', 'trace' => $dbException->getTraceAsString()], 500);
+        }
+
+        // Return the investment options as JSON
+        return response()->json($investmentOptions);
+    }
+
+    /*
     public function extractInvestment(Request $request)
     {
         //validates it matches the database
@@ -50,5 +65,5 @@ class InvestmentOptController extends Controller
             Log::error('Database retrieval error', ['error' => $dbException->getMessage()]);
             return response()->json(['message' => 'Database error', 'trace' => $dbException->getTraceAsString()], 500);
         }
-    }
+    }*/
 }

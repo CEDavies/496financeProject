@@ -50,7 +50,9 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 });
 
 Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::get('/api/investments', [InvestmentOptController::class, 'getInvestments']);
     Route::post('teacherViews/InvestmentOpt', [App\Http\Controllers\InvestmentOptController::class,'extractInvestment'])->name('file.extract');
+
 });
 
 

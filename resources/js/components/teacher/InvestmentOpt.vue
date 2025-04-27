@@ -1,4 +1,6 @@
 <script setup>
+import { ref, onMounted} from 'vue';
+
 //setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
   homeRoute: {required:true, type: String},
