@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
-use App\Http\Controllers\InvestInvestmentOptController;
+use App\Http\Controllers\InvestmentOptController;
 use App\Http\Middleware\VerifyCsrfToken;
 
 //This is an example query to show the database connection
@@ -46,11 +46,12 @@ Route::get('/studDashboard', function () {
 
 //middleware - verifies the csrf token (required for security)
 Route::middleware([VerifyCsrfToken::class])->group(function () {
-    Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
+    //Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
+    Route::get('/api/investments', [InvestmentOptController::class, 'index']);
 });
 
 Route::middleware([VerifyCsrfToken::class])->group(function () {
-    Route::post('teacherViews/InvestmentOpt', [App\Http\Controllers\InvestmentOptController::class,'extractInvestment'])->name('file.extract');
+    Route::post('teacherViews/InvestmentOpt', [App\Http\Controllers\InvestmentOptController::class,'extractInvestment']);
 });
 
 
