@@ -54,7 +54,19 @@ Route::get('/teachInvestment', function () {
     return view('teacherViews/InvestmentOpt');
 })->name('manageInvest');
 
+//uses different name to get the table info to the correct vuejs
 Route::get('api/investment', [InvestmentOptController::class, 'getInvestments']);
+
+//for adding investment options
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::post('teacherViews/InvestmentOpt', [InvestmentOptController::class, 'addInvestment']);
+});
+
+//deleting investment options
+Route::delete('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'destroy'])->name('investment.destroy');
+
+//editing the investment options
+Route::put('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'updateInvestment']);
 
 Route::get('/manageStudents', function () {
     return view('teacherViews/manageStud');
