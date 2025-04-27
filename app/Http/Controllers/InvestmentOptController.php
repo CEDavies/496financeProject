@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class InvestmnetOptController extends Controller
+class InvestmentOptController extends Controller
 {
     public function extractInvestment(Request $request)
     {
