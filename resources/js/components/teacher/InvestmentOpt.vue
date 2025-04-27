@@ -1,14 +1,41 @@
 <script setup>
-//setup the props
+import { ref, onMounted } from 'vue';
+import axios from 'axios'; // Import Axios
+
+// Setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
-  homeRoute: {required:true, type: String},
-  manageStud: {required:true, type: String},
-  manageInvest: {required:true, type: String},
-  projectRoute: {required:true, type: String}, 
-  reportRoute: {required:true, type: String},
+  homeRoute: { required: true, type: String },
+  manageStud: { required: true, type: String },
+  manageInvest: { required: true, type: String },
+  projectRoute: { required: true, type: String },
+  reportRoute: { required: true, type: String },
+  
 });
 
+const investments = ref([]);
+
+const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+const getInvest = async () => {
+  try {
+    const response = await axios.get('api/investment', {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+      },
+    });
+    investments.value = response.data;
+
+    console.log(investments.value);
+  } catch (error) {
+    console.error('Cannot get investments:', error);
+  }
+};
+
+onMounted(() => {
+  getInvest();
+});
 </script>
+
 
 <template>
   <!-- Navbar Container -->
@@ -50,26 +77,20 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
               <th class="border px-4 py-2">Interest Rate</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="border px-4 py-2">Name</td>
-              <td class="border px-4 py-2">Duration</td>
-              <td class="border px-4 py-2">Interest Type</td>
-              <td class="border px-4 py-2">Interest Rate</td>
-            </tr>
-            <tr>
-              <td class="border px-4 py-2">Name</td>
-              <td class="border px-4 py-2">Duration</td>
-              <td class="border px-4 py-2">Interest Type</td>
-              <td class="border px-4 py-2">Interest Rate</td>
-            </tr>
-            <tr>
-              <td class="border px-4 py-2">Name</td>
-              <td class="border px-4 py-2">Duration</td>
-              <td class="border px-4 py-2">Interest Type</td>
-              <td class="border px-4 py-2">Interest Rate</td>
-            </tr>
-          </tbody>
+          <tbody v-if="investments.length > 0">
+              <tr v-for="investment in investments" :key="investment.id">
+                <td class="border px-4 py-2 break-words w-1/4">{{ investment.name || 'Missing name' }}
+                </td>
+                <td class="border px-4 py-2">{{ investment.duration_year }}</td>
+                <td class="border px-4 py-2">{{ investment.interest_type }}</td>
+                <td class="border px-4 py-2">{{ investment.interest_rate }}</td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td colspan="4" class="text-center py-4">No investment options found.</td>
+              </tr>
+            </tbody>
         </table>
 
         <div class="space-y-4">
