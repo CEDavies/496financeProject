@@ -67,4 +67,18 @@ class InvestmentOptController extends Controller
 
         return response()->json(['message' => 'No file uploaded or invalid file'], 400);
     }
+
+    //delete the specfiic investment entry
+    public function destroy($id)
+    {
+        $investment = DB::table('investment_option')->where('option_id', $id)->delete();
+        // Check if investment exists
+        if (!$investment) {
+            return response()->json(['message' => 'Investment not found', $id], 404);
+        }
+
+        // Respond with success message
+        return response()->json(['message' => 'Investment deleted successfully']);
+    }
+
 }

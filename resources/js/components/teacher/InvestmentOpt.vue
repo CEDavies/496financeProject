@@ -53,6 +53,26 @@ const addInvestment = async () => {
     });
 }
 
+//delete an investment from database
+const deleteInvestment = async (investmentId) => {
+  console.log('Investment ID:', investmentId);
+  if (confirm("Are you sure you want to delete this investment?")) {
+    try {
+      await axios.delete(`teacherViews/InvestmentOpt/${investmentId}`, {
+        headers: {
+          'X-CSRF-TOKEN': csrf,
+        },
+      });
+      alert('Investment deleted successfully!');
+      getInvest(); // Reload investments after deleting
+    } catch (error) {
+      console.error('Error deleting investment:', error);
+      alert('Error deleting investment');
+    }
+  }
+};
+
+//gets the investment options to display 
 const getInvest = async () => {
   try {
     const response = await axios.get('api/investment', {
@@ -61,7 +81,6 @@ const getInvest = async () => {
       },
     });
     investments.value = response.data;
-    console.log(investments.value);
   } catch (error) {
     console.error('Cannot get investments:', error);
   }
@@ -118,6 +137,13 @@ onMounted(() => {
               <td class="border px-4 py-2">{{ investment.duration_year }}</td>
               <td class="border px-4 py-2">{{ investment.interest_type }}</td>
               <td class="border px-4 py-2">{{ investment.interest_rate }}</td>
+              <td class="border px-4 py-2">
+                <button 
+                  @click="deleteInvestment(investment.option_id)" 
+                  class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                  Delete
+                </button>
+              </td>
             </tr>
           </tbody>
           <tbody v-else>
@@ -129,7 +155,7 @@ onMounted(() => {
 
         <div class="space-y-4">
           <input type="hidden" name="_token" v-bind:value="csrf"> 
-          <button type="button" class="px-6 py-2 bg-yellow-500 text-white rounded-md w-full" @click="toggleAddForm">
+          <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-md w-full" @click="toggleAddForm">
             Add
           </button>
 
@@ -162,14 +188,12 @@ onMounted(() => {
                 <input type="number" id="duration_year" v-model="newInvestment.duration_year" required />
               </div>
 
-              <button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md">
+              <button type="submit" class="mt-4 px-4 py-2 bg-green-400 text-white rounded-md">
                 Submit
               </button>
             </form>
           </div>
-          
-          <button type="button" class="px-6 py-2 bg-yellow-500 text-white rounded-md w-full">Edit</button>
-          <button type="button" class="px-6 py-2 bg-blue-500 text-white rounded-md w-full mt-3">Delete</button>
+          <button type="button" class="px-6 py-2 bg-orange-500 text-white rounded-md w-full">Edit</button>
         </div>
       </div>
     </div>
