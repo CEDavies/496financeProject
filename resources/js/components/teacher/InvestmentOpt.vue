@@ -12,9 +12,15 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
 
 const investments=ref([]);
 
+const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 const getInvest = async () => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/investments'); // Use the correct base URL
+    const response = await fetch('http://127.0.0.1:8000/api/investments', {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+      },
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
