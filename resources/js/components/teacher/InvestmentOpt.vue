@@ -52,13 +52,6 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
           </thead>
           <tbody>
             <tr>
-              <td class="border px-4 py-2">{{investment.name}}</td>
-              <td class="border px-4 py-2">{{investment.duration_year}}</td>
-              <td class="border px-4 py-2">{{investment.interest.type}}</td>
-              <td class="border px-4 py-2">{{investment.interest_rate}}</td>
-            </tr>
-            <!--
-            <tr>
               <td class="border px-4 py-2">Name</td>
               <td class="border px-4 py-2">Duration</td>
               <td class="border px-4 py-2">Interest Type</td>
@@ -70,7 +63,12 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
               <td class="border px-4 py-2">Interest Type</td>
               <td class="border px-4 py-2">Interest Rate</td>
             </tr>
-            !-->
+            <tr>
+              <td class="border px-4 py-2">Name</td>
+              <td class="border px-4 py-2">Duration</td>
+              <td class="border px-4 py-2">Interest Type</td>
+              <td class="border px-4 py-2">Interest Rate</td>
+            </tr>
           </tbody>
         </table>
 
