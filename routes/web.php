@@ -65,6 +65,9 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 //deleting investment options
 Route::delete('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'destroy'])->name('investment.destroy');
 
+//editing the investment options
+Route::put('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'updateInvestment']);
+
 Route::get('/manageStudents', function () {
     return view('teacherViews/manageStud');
 })->name('manageStud');

@@ -81,4 +81,34 @@ class InvestmentOptController extends Controller
         return response()->json(['message' => 'Investment deleted successfully']);
     }
 
+    //updates the specific investment entry
+    public function updateInvestment(Request $request, $id)
+    {
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:40',
+            'duration_year' => 'required|integer|min:1',
+            'interest_type' => ['required', Rule::in(['simple', 'compound'])],
+            'interest_rate' => 'nullable|numeric|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        try {
+            $updated = DB::table('investment_option')
+                ->where('option_id', $id)
+                ->update($validator->safe()->all());
+
+            if ($updated) {
+                return response()->json(['message' => 'Investment updated successfully']);
+            } else {
+                return response()->json(['message' => 'Investment not found'], 404);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error updating investment:', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Database error', 'error' => $e->getMessage()], 500);
+        }
+    }
 }
