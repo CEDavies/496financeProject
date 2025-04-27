@@ -51,7 +51,6 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 
 Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::post('teacherViews/InvestmentOpt', [App\Http\Controllers\InvestmnetOptController::class,'extractInvestment'])->name('file.extract');
-    Route::get('teacherViews/InvestmentOpt', [App\Http\Controllers\InvestmnetOptController::class,'extractInvestment'])->name('file.get');
 });
 
 
