@@ -1,5 +1,6 @@
-<script>
-/*import { ref } from 'vue';
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
 
 //setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
@@ -14,29 +15,41 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
 const name = ref(2); //static values for right now
 const duration_year = ref(1);
 const interest_type = ref(2);
-const interest_rate = ref(2) */
+const interest_rate = ref(2)
 
-export default{
-  data(){
-    return{
-      investments:[]
-    }
-  },
-  mounted(){
-    this.fetchInvestments();
-  },
-  methods:{
-    async fetchInvestments(){
-      try{
-        const response = await fetch('/api/investments');
-        const data = await response.json();
-        this.investments = data;
-      } catch(error){
-        console.error('cannot fetch data:', error);
-      }
-    }
-  }
-}
+const route = 'teacherViews/InvestmentOpt';
+//take it from student_investment then put it in portfilo
+
+// onMounted(() => {
+//   csrf.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+// });
+
+//gets the file from the database
+const getUploadedFile = () => {
+  let formData = new FormData();
+  formData.append('student_id', student_id.value);
+  formData.append('teacher_id', teacher_id.value);
+  formData.append('project_id', project_id.value);
+  const object = Object.fromEntries(formData.entries());
+  console.log(object); 
+  //formData.append('_token', this.csrf); // Append CSRF token
+
+  //need these ones in getting the file? could just be for the portfolio generation
+  // formData.append('investment_ids', investment_ids);
+  // formData.append('intialAmt', intialAmt);
+
+
+  //does a POST request
+  axios.post(route, formData)
+    .then(response => {
+      console.log('File Found Successfully', response.data);
+      alert('File Found successfully!');
+    })
+    .catch(error => {
+      console.error('Error finding file:', error);
+      alert('Error finding file');
+    });
+};
 </script>
 
 <template>
@@ -79,14 +92,8 @@ export default{
               <th class="border px-4 py-2">Interest Rate</th>
             </tr>
           </thead>
-          <tbody v-if="investments.length">
-            <tr v-for="investment in investments" :key="investment.id">
-              <td class="border px-4 py-2">{{ investment.name }}</td>
-              <td class="border px-4 py-2">{{ investment.duration_year}}</td>
-              <td class="border px-4 py-2">{{ investment.interest_type}}</td>
-              <td class="border px-4 py-2">{{ investment.interest_rate}}</td>
-            </tr>
-            <!--<tr>
+          <tbody>
+            <tr>
               <td class="border px-4 py-2">Name</td>
               <td class="border px-4 py-2">Duration</td>
               <td class="border px-4 py-2">Interest Type</td>
@@ -97,7 +104,13 @@ export default{
               <td class="border px-4 py-2">Duration</td>
               <td class="border px-4 py-2">Interest Type</td>
               <td class="border px-4 py-2">Interest Rate</td>
-            </tr>-->
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Name</td>
+              <td class="border px-4 py-2">Duration</td>
+              <td class="border px-4 py-2">Interest Type</td>
+              <td class="border px-4 py-2">Interest Rate</td>
+            </tr>
           </tbody>
         </table>
 
