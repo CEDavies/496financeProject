@@ -7,7 +7,8 @@ export default {
   },
   methods: {
     redirectToGoogle() {
-      window.location.href = 'http://localhost:8000/auth/redirect/google'
+      window.location.href = '/auth/redirect/google';
+
     }
   }
 }

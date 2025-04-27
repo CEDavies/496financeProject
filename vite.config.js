@@ -1,11 +1,19 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue'
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     server: {
         hmr: {
             host: 'localhost',
+        },
+        proxy: {
+            '/auth': {
+                target: 'http://localhost:8000',
+            },
+            '/api': {
+                target: 'http://localhost:8000',
+            },
         },
     },
     plugins: [
@@ -20,4 +28,4 @@ export default defineConfig({
             vue: 'vue/dist/vue.esm-bundler.js',
         },
     },
-})
+});
