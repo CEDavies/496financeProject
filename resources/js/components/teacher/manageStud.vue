@@ -8,6 +8,30 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   reportRoute: {required:true, type: String},
 });
 
+/*
+const students=ref([]);
+
+const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+const getStud = async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/students', {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    students.value = await response.json();
+  } catch (error) {
+    console.error('Cannot get the students:', error);
+  }
+};
+
+onMounted(() => {
+  getStud();
+});*/
 </script>
 
 <template>
