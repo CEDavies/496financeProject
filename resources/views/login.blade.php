@@ -12,6 +12,10 @@
     </head>
     <body class="font-sans antialiased dark:bg-white">
         <div id="login">
+        <a href="{{ route('google.login') }}" class="btn btn-google">
+    Login with Google
+</a>
+
             <login/>
         </div>
     </body>

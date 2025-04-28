@@ -10,6 +10,33 @@ use App\Http\Controllers\ManageStudentController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\VerifyCsrfToken;
 
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
+Route::get('auth/google', function () {
+    return Socialite::driver('google')->redirect();
+})->name('google.login');
+
+Route::get('auth/google/callback', function () {
+    $googleUser = Socialite::driver('google')->stateless()->user();
+
+    // Find or create user
+    $user = User::updateOrCreate(
+        ['email' => $googleUser->getEmail()],
+        [
+            'name' => $googleUser->getName(),
+            'google_id' => $googleUser->getId(),
+            'avatar' => $googleUser->getAvatar(),
+        ]
+    );
+
+    Auth::login($user);
+
+    return redirect('/dashboard'); // or wherever you want
+});
+
+
 //This is an example query to show the database connection
 Route::get('/show-queries', function () {
     // Enable query log
