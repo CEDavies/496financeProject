@@ -26,7 +26,7 @@ const newStudent = ref({
     student_name: '',
     project: '',
     progress: 'in progress',
-    teacher_id: null, // Make sure teacher_id is always included, even if null
+    teacher_id: null,
 });
 
 const students = ref([]);
@@ -44,17 +44,12 @@ const toggleAddForm = () => {
 };
 
 const openEditForm = (student) => {
-    editingStudentId.value = student.id;
-    editStudentData.value = {
-        id: student.id,
-        student_name: student.student_name,
-        project: student.project,
-        progress: student.progress,
-        teacher_id: student.teacher_id, // Include teacher_id in edit data
-    };
+    editingStudentId.value = student.student_id;  // Use student.student_id here
+    editStudentData.value = { ...student }; // Populate edit form with student data
     showEditForm.value = true;
-    showAddForm.value = false;
+    showAddForm.value = false; // Ensure only one form is visible
 };
+
 
 const addStudent = async () => {
     try {
@@ -96,6 +91,7 @@ const editStudent = async () => {
 };
 
 const deleteStudent = async (studentId) => {
+    console.log("Deleting student with ID:", studentId); // Debugging line
     if (confirm("Are you sure you want to delete this student?")) {
         try {
             await axios.delete(`api/students/${studentId}`, {
@@ -172,7 +168,7 @@ onMounted(() => {
                         </tr>
                     </thead>
                     <tbody v-if="students.length > 0">
-                        <tr v-for="student in students" :key="student.id">
+                        <tr v-for="student in students" :key="student.student_id">
                             <td class="border px-4 py-2">{{ student.student_name }}</td>
                             <td class="border px-4 py-2">{{ student.project }}</td>
                             <td class="border px-4 py-2">{{ student.progress }}</td>
@@ -181,7 +177,7 @@ onMounted(() => {
                                     class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                     Edit
                                 </button>
-                                <button @click="deleteStudent(student.id)"
+                                <button @click="deleteStudent(student.student_id)"
                                     class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
                                     Delete
                                 </button>
@@ -233,6 +229,7 @@ onMounted(() => {
                     <div v-if="showEditForm">
                         <h2>Edit Student</h2>
                         <form @submit.prevent="editStudent">
+                            <input type="hidden" id>
                             <div>
                                 <label for="edit-name">Student Name</label>
                                 <input type="text" id="edit-name" v-model="editStudentData.student_name" required />

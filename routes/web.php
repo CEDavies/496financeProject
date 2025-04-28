@@ -75,10 +75,10 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 });
 
 //deleting investment options
-Route::delete('teacherViews/manageStud/{id}', [ManageStudentController::class, 'deleteStudent'])->name('student.deleteStudent');
+Route::delete('api/students/{id}', [ManageStudentController::class, 'deleteStudent'])->name('student.deleteStudent');
 
 //editing the investment options
-Route::put('/teacherViews/manageStud/{id}', [ManageStudentController::class, 'updateStudent']);
+Route::put('/api/students/{id}', [ManageStudentController::class, 'updateStudent']);
 
 Route::get('/projects', function () {
     return view('teacherViews/projects');
