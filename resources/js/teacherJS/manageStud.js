@@ -8,6 +8,7 @@ const projectRoute = document.getElementById('manageStud').getAttribute('project
 const manageStuds = document.getElementById('manageStud').getAttribute('manage-stud');
 const manageInvest = document.getElementById('manageStud').getAttribute('manage-invest');
 const reportRoute = document.getElementById('manageStud').getAttribute('report-route');
+
 const app = createApp({
   components: {
     'manage-stud': manageStud // Register the component locally within this app instance
