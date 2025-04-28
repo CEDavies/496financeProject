@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
-use App\Http\Controllers\InvestmentOptController;
 use App\Http\Middleware\VerifyCsrfToken;
 
 //This is an example query to show the database connection
@@ -49,12 +48,11 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
 });
 
+
 // Teacher View routes
 Route::get('/teachInvestment', function () {
     return view('teacherViews/InvestmentOpt');
 })->name('manageInvest');
-
-Route::get('api/investment', [InvestmentOptController::class, 'getInvestments']);
 
 Route::get('/manageStudents', function () {
     return view('teacherViews/manageStud');
@@ -71,3 +69,27 @@ Route::get('/teachReports', function () {
 Route::get('/teacherDashboard', function () {
     return view('teacherViews/teachDashboard');
 })->name('teachDash');
+
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
+use App\Models\User;
+
+Route::get('/auth/redirect/google', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('/auth/callback/google', function () {
+    $googleUser = Socialite::driver('google')->user();
+
+    $user = User::firstOrCreate(
+        ['email' => $googleUser->getEmail()],
+        [
+            'name' => $googleUser->getName(),
+            'password' => bcrypt(Str::random(24))
+        ]
+    );
+
+    $token = $user->createToken('google-token')->plainTextToken;
+
+    return redirect("http://localhost:5173/oauth-success?token={$token}");
+});
