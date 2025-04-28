@@ -1,29 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
 use App\Http\Middleware\VerifyCsrfToken;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
+use App\Models\User;
 
-//This is an example query to show the database connection
+// This is an example query to show the database connection
 Route::get('/show-queries', function () {
     // Enable query log
     DB::enableQueryLog();
 
     // Perform some database operations
-    $what = DB::table('project')->get("teacher_id");
+    $what = DB::table('project')->get('teacher_id');
 
     // Get the executed queries
     $queries = DB::getQueryLog();
 
-    // Display in browser
-    return response()->json($users);
+    // Display the fetched data
+    return response()->json($what);
 });
 
-
-//Webpages
+// Webpages
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -41,13 +42,10 @@ Route::get('/studDashboard', function () {
     return view('studentViews/studDashboard');
 });
 
-//Route::post('/studDashboard', [FileUpload::class, 'store'])->name('file.store');
-
-//middleware - verifies the csrf token (required for security)
+// Middleware - verifies the CSRF token (required for security)
 Route::middleware([VerifyCsrfToken::class])->group(function () {
-    Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
+    Route::post('studentViews/studDashboard', [FileUpload::class, 'store'])->name('file.store');
 });
-
 
 // Teacher View routes
 Route::get('/teachInvestment', function () {
@@ -70,10 +68,7 @@ Route::get('/teacherDashboard', function () {
     return view('teacherViews/teachDashboard');
 })->name('teachDash');
 
-use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Str;
-use App\Models\User;
-
+// Google OAuth routes
 Route::get('/auth/redirect/google', function () {
     return Socialite::driver('google')->redirect();
 });
