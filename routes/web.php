@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
@@ -9,10 +8,10 @@ use App\Http\Controllers\InvestmentOptController;
 use App\Http\Controllers\ManageStudentController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\VerifyCsrfToken;
-
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 Route::get('auth/google', function () {
     return Socialite::driver('google')->redirect();
@@ -28,6 +27,7 @@ Route::get('auth/google/callback', function () {
             'name' => $googleUser->getName(),
             'google_id' => $googleUser->getId(),
             'avatar' => $googleUser->getAvatar(),
+            'password' => bcrypt(Str::random(24)),
         ]
     );
 
@@ -35,6 +35,33 @@ Route::get('auth/google/callback', function () {
 
     return redirect('/dashboard'); // or wherever you want
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
+
+// Show the set password form
+Route::get('/set-password', function () {
+    return view('set-password');
+})->middleware('auth')->name('password.set-form');
+
+// Handle the form submit
+Route::post('/set-password', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'password' => 'required|confirmed|min:8',
+    ]);
+
+    $user = Auth::user();
+    $user->password = bcrypt($request->password);
+    $user->save();
+
+    return redirect('/dashboard')->with('success', 'Password set successfully!');
+})->middleware('auth')->name('password.set');
 
 
 //This is an example query to show the database connection
@@ -140,3 +167,21 @@ Route::get('/teachReports', function () {
 Route::get('/teacherDashboard', function () {
     return view('teacherViews/teachDashboard');
 })->name('teachDash');
+
+// Set Password Form
+Route::get('/set-password', function () {
+    return view('set-password');
+})->middleware('auth')->name('password.set-form');
+
+// Set Password POST Handler
+Route::post('/set-password', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'password' => 'required|confirmed|min:8',
+    ]);
+
+    $user = Auth::user();
+    $user->password = bcrypt($request->password);
+    $user->save();
+
+    return redirect('/dashboard')->with('success', 'Password set successfully!');
+})->middleware('auth')->name('password.set');
