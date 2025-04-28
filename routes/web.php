@@ -58,6 +58,13 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
 });
 
+
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::get('/api/investments', [InvestmentOptController::class, 'getInvestments']);
+    #Route::post('teacherViews/InvestmentOpt', [App\Http\Controllers\InvestmentOptController::class,'extractInvestment'])->name('file.extract');
+
+});
+
 // Teacher View routes
 Route::get('/teachInvestment', function () {
     return view('teacherViews/InvestmentOpt');
@@ -80,6 +87,19 @@ Route::put('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 
 Route::get('/manageStudents', function () {
     return view('teacherViews/manageStud');
 })->name('manageStud');
+
+Route::get('api/students', [ManageStudentController::class, 'getStudents']);
+
+//for adding investment options
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::post('teacherViews/manageStud', [ManageStudentController::class, 'addStudent']);
+});
+
+//deleting investment options
+Route::delete('api/students/{id}', [ManageStudentController::class, 'deleteStudent'])->name('student.deleteStudent');
+
+//editing the investment options
+Route::put('/api/students/{id}', [ManageStudentController::class, 'updateStudent']);
 
 Route::get('/projects', function () {
     return view('teacherViews/projects');
