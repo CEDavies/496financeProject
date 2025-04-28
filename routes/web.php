@@ -47,8 +47,6 @@ Route::get('/studDashboard', function () {
 
 Route::get('/api/investments', [InvestmentOptController::class, 'getInvestments']);
 
-Route::get('/api/students', [ManageStudentController::class, 'getStudents']);
-
 //middleware - verifies the csrf token (required for security)
 Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
@@ -60,7 +58,6 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 
 });
 
-
 // Teacher View routes
 Route::get('/teachInvestment', function () {
     return view('teacherViews/InvestmentOpt');
@@ -69,6 +66,8 @@ Route::get('/teachInvestment', function () {
 Route::get('/manageStudents', function () {
     return view('teacherViews/manageStud');
 })->name('manageStud');
+
+Route::get('api/students', [ManageStudentController::class, 'getStudents']);
 
 Route::get('/projects', function () {
     return view('teacherViews/projects');

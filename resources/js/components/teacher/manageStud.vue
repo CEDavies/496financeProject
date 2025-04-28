@@ -16,19 +16,22 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
 
 const getStud = async () => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/students', {
+    const response = await axios.get('api/students', {
       headers: {
         'X-CSRF-TOKEN': csrf,
       },
     });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    
+    if (response.status === 200) {
+      students.value = response.data; // Directly access data
+    } else {
+      throw new Error(`Failed to fetch students, status: ${response.status}`);
     }
-    students.value = await response.json();
   } catch (error) {
     console.error('Cannot get the students:', error);
   }
 };
+
 
 onMounted(() => {
   getStud();
@@ -74,11 +77,16 @@ onMounted(() => {
               <th class="border px-4 py-2">Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="students.length > 0">
             <tr v-for="student in students" :key="student.id">
               <td class="border px-4 py-2">{{ student.student_name }}</td>
               <td class="border px-4 py-2">{{ student.project }}</td>
               <td class="border px-4 py-2">{{ student.progress }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5" class="text-center py-4">No Students found.</td>
             </tr>
           </tbody>
         </table>
