@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
 use App\Http\Controllers\InvestmentOptController;
 use App\Http\Controllers\ManageStudentController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\VerifyCsrfToken;
 
 //This is an example query to show the database connection
@@ -47,10 +48,16 @@ Route::get('/studDashboard', function () {
 
 Route::get('/api/investments', [InvestmentOptController::class, 'getInvestments']);
 
+Route::get('/api/students', [ManageStudentController::class, 'getStudents']);
+
+Route::get('/api/projects', [ProjectController::class, 'getProjects']);
+
+
 //middleware - verifies the csrf token (required for security)
 Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::post('studentViews/studDashboard', [App\Http\Controllers\FileUpload::class,'store'])->name('file.store');
 });
+
 
 Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::get('/api/investments', [InvestmentOptController::class, 'getInvestments']);
@@ -62,6 +69,20 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 Route::get('/teachInvestment', function () {
     return view('teacherViews/InvestmentOpt');
 })->name('manageInvest');
+
+//uses different name to get the table info to the correct vuejs
+Route::get('api/investment', [InvestmentOptController::class, 'getInvestments']);
+
+//for adding investment options
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::post('teacherViews/InvestmentOpt', [InvestmentOptController::class, 'addInvestment']);
+});
+
+//deleting investment options
+Route::delete('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'destroy'])->name('investment.destroy');
+
+//editing the investment options
+Route::put('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'updateInvestment']);
 
 Route::get('/manageStudents', function () {
     return view('teacherViews/manageStud');

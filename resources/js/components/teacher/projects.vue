@@ -1,4 +1,5 @@
 <script setup>
+import { ref, onMounted} from 'vue';
 //setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
   homeRoute: {required:true, type: String},
@@ -8,6 +9,29 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   reportRoute: {required:true, type: String},
 });
 
+const projects=ref([]);
+
+const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+const getProj = async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/projects', {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    projects.value = await response.json();
+  } catch (error) {
+    console.error('Cannot get the students:', error);
+  }
+};
+
+onMounted(() => {
+  getProj();
+});
 </script>
 
 <template>
@@ -49,30 +73,14 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="border border-gray-300 px-4 py-2">Student Name 1</td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File]</td>
-            <td class="border border-gray-300 px-4 py-2">Investion Option #</td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File]
+          <tr v-for="project in projects" :key="project.id">
+            <td class="border border-gray-300 px-4 py-2">{{project.student_name}}</td>
+            <td class="border border-gray-300 px-4 py-2">{{project.project_filepath}}</td>
+            <td class="border border-gray-300 px-4 py-2">{{project.option_name}}</td>
+            <td class="border border-gray-300 px-4 py-2">{{project.initial_investment}}
               <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 my-2 rounded">Download</button>
             </td>
-            <td class="border border-gray-300 px-4 py-2">[Grade/Feedback]</td>
-          </tr>
-          <tr>
-            <td class="border border-gray-300 px-4 py-2">Student Name 2</td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File] </td>
-            <td class="border border-gray-300 px-4 py-2">Investion Option #</td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File]
-              <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 my-2 rounded">Download</button>
-            </td>
-            <td class="border border-gray-300 px-4 py-2">Send Feedback</td>
-          </tr>
-          <tr>
-            <td class="border border-gray-300 px-4 py-2">Student Name 3</td>
-            <td class="border border-gray-300 px-4 py-2">N/A</td>
-            <td class="border border-gray-300 px-4 py-2">Investion Option #</td>
-            <td class="border border-gray-300 px-4 py-2"><button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 my-2 rounded">Generate Report</button></td>
-            <td class="border border-gray-300 px-4 py-2">[Grade/Feedback]</td>
+            <td class="border border-gray-300 px-4 py-2">{{project.grade}}</td>
           </tr>
         </tbody>
       </table>
