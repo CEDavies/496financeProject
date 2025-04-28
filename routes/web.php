@@ -69,6 +69,17 @@ Route::get('/manageStudents', function () {
 
 Route::get('api/students', [ManageStudentController::class, 'getStudents']);
 
+//for adding investment options
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::post('teacherViews/manageStud', [ManageStudentController::class, 'addStudent']);
+});
+
+//deleting investment options
+Route::delete('teacherViews/manageStud/{id}', [ManageStudentController::class, 'deleteStudent'])->name('student.deleteStudent');
+
+//editing the investment options
+Route::put('/teacherViews/manageStud/{id}', [ManageStudentController::class, 'updateStudent']);
+
 Route::get('/projects', function () {
     return view('teacherViews/projects');
 })->name('projects');
