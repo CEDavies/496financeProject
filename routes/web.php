@@ -7,6 +7,28 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUpload;
 use App\Http\Controllers\InvestmentOptController;
 use App\Http\Middleware\VerifyCsrfToken;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use App\Http\Controllers\LoginController;
+
+Route::get('/auth/redirect/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('/auth/callback/google', [LoginController::class, 'handleGoogleCallback']);
+
+
+Route::get('auth/redirect/google', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('auth/callback/google', function () {
+    $googleUser = Socialite::driver('google')->user();
+    $user = User::firstOrCreate(
+        ['email' => $googleUser->getEmail()],
+        ['name' => $googleUser->getName(), 'password' => bcrypt(str_random(24))]
+    );
+    auth()->login($user);
+    return redirect('/dashboard');
+});
+
 
 //This is an example query to show the database connection
 Route::get('/show-queries', function () {
