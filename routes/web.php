@@ -79,7 +79,7 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
 });
 
 //deleting investment options
-Route::delete('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'destroy'])->name('investment.destroy');
+Route::delete('teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'destroy'])->name('investment.destroy');
 
 //editing the investment options
 Route::put('/teacherViews/InvestmentOpt/{id}', [InvestmentOptController::class, 'updateInvestment']);
@@ -95,10 +95,11 @@ Route::middleware([VerifyCsrfToken::class])->group(function () {
     Route::post('teacherViews/manageStud', [ManageStudentController::class, 'addStudent']);
 });
 
-//deleting investment options
+
+//deleting student options
 Route::delete('api/students/{id}', [ManageStudentController::class, 'deleteStudent'])->name('student.deleteStudent');
 
-//editing the investment options
+//editing the student options
 Route::put('/api/students/{id}', [ManageStudentController::class, 'updateStudent']);
 
 Route::get('/projects', function () {

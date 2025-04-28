@@ -51,7 +51,7 @@ const openEditForm = (investment) => {
 
 const addInvestment = async () => {
   try {
-    await axios.post('api/investment', newInvestment.value, {
+    await axios.post('teacherViews/InvestmentOpt', newInvestment.value, {
       headers: {
         'X-CSRF-TOKEN': csrf,
       },
@@ -92,7 +92,7 @@ const deleteInvestment = async (investmentId) => {
   console.log('Investment ID:', investmentId);
   if (confirm("Are you sure you want to delete this investment?")) {
     try {
-      await axios.delete(`api/investment/${investmentId}`, {
+      await axios.delete(`teacherViews/InvestmentOpt/${investmentId}`, {
         headers: {
           'X-CSRF-TOKEN': csrf,
         },
