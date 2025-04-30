@@ -1,4 +1,5 @@
 <script setup>
+import { ref, onMounted} from 'vue';
 //setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
   homeRoute: {required:true, type: String},
@@ -6,6 +7,28 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   manageInvest: {required:true, type: String},
   projectRoute: {required:true, type: String}, 
   reportRoute: {required:true, type: String},
+});
+
+const reports=ref([]);
+
+const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+//gets the reports to display
+const getReports = async () => {
+  try {
+    const response = await axios.get('api/reports', {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+      },
+    });
+    reports.value = response.data;
+  } catch (error) {
+    console.error('Cannot get investments:', error);
+  }
+};
+
+onMounted(() => {
+  getReports();
 });
 </script>
 
@@ -29,45 +52,37 @@ const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defin
   </nav>
 
   <div class="relative h-screen flex justify-center bg-gray-100">
-    <div class="py-10 w-full max-w-2xl"> <h2 class="text-xl font-semibold m-4">Student Reports</h2>
-      <table class="w-full border-collapse border-2 border-gray-300">
-        <caption>
-          <div class="py-2 text-center text-lg font-semibold">Projects</div>
-          <input type="hidden" name="_token" v-bind:value="csrf"> 
-        </caption>
-        <thead>
-          <tr class="bg-gray-200">
-            <th class="border border-gray-300 px-4 py-2">Student</th>
-            <th class="border border-gray-300 px-4 py-2">Project File</th>
-            <th class="border border-gray-300 px-4 py-2">Portfolio File</th>
-            <th class="border border-gray-300 px-4 py-2">Feedback/Grade</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="border border-gray-300 px-4 py-2">Student Name 1</td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File]</td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File]
-              <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 my-2 rounded">Download</button>
-            </td>
-            <td class="border border-gray-300 px-4 py-2">[Grade/Feedback]</td>
-          </tr>
-          <tr>
-            <td class="border border-gray-300 px-4 py-2">Student Name 2</td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File] </td>
-            <td class="border border-gray-300 px-4 py-2">[Link to File]
-              <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 my-2 rounded">Download</button>
-            </td>
-            <td class="border border-gray-300 px-4 py-2">Send Feedback</td>
-          </tr>
-          <tr>
-            <td class="border border-gray-300 px-4 py-2">Student Name 3</td>
-            <td class="border border-gray-300 px-4 py-2">N/A</td>
-            <td class="border border-gray-300 px-4 py-2"><button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 my-2 rounded">Generate Report</button></td>
-            <td class="border border-gray-300 px-4 py-2">[Grade/Feedback]</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="py-10 w-full max-w-2xl">
+      <h2 class="text-xl font-semibold m-4">Student Reports</h2>
+      <template v-if="reports.length > 0">
+        <table class="w-full border-collapse border-2 border-gray-300">
+          <caption>
+            <div class="py-2 text-center text-lg font-semibold">Projects</div>
+            <input type="hidden" name="_token" v-bind:value="csrf">
+          </caption>
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="border border-gray-300 px-4 py-2">Student</th>
+              <th class="border border-gray-300 px-4 py-2">Year</th>
+              <th class="border border-gray-300 px-4 py-2">Portfolio File</th>
+              <th class="border border-gray-300 px-4 py-2">Value of Portfolio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="report in reports" :key="report.id">
+              <td class="border border-gray-300 px-4 py-2">{{ report.portfolio_id }}</td>
+              <td class="border border-gray-300 px-4 py-2">{{ report.year }}</td>
+              <td class="border border-gray-300 px-4 py-2">[Link to File]
+                <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 my-2 rounded">Download</button>
+              </td>
+              <td class="border border-gray-300 px-4 py-2">{{ report.portfolio_value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+      <div v-else class="text-center mt-6">
+        No reports available.
+      </div>
     </div>
   </div>
 </template>

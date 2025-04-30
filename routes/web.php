@@ -7,6 +7,8 @@ use App\Http\Controllers\FileUpload;
 use App\Http\Controllers\InvestmentOptController;
 use App\Http\Controllers\ManageStudentController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\GradesController;
 use App\Http\Middleware\VerifyCsrfToken;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
@@ -106,6 +108,7 @@ Route::get('/api/students', [ManageStudentController::class, 'getStudents']);
 
 Route::get('/api/projects', [ProjectController::class, 'getProjects']);
 
+Route::get('/api/reports', [ReportsController::class, 'getReports']);
 
 //middleware - verifies the csrf token (required for security)
 Route::middleware([VerifyCsrfToken::class])->group(function () {
@@ -159,6 +162,11 @@ Route::put('/api/students/{id}', [ManageStudentController::class, 'updateStudent
 Route::get('/projects', function () {
     return view('teacherViews/projects');
 })->name('projects');
+
+//adding the grades/feeback
+Route::middleware([VerifyCsrfToken::class])->group(function () {
+    Route::post('api/projects/{project}/feedback', [GradesController::class, 'saveFeedback']);
+});
 
 Route::get('/teachReports', function () {
     return view('teacherViews/reports');
