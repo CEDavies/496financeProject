@@ -12,6 +12,11 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Http\Controllers\AuthController;
+
+Route::get('/auth/redirect', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);
+
 
 Route::get('auth/google', function () {
     return Socialite::driver('google')->redirect();
