@@ -122,8 +122,6 @@ const getInvest = async () => {
 };
 
 const { locale } = useI18n();
-
-//const selectedLanguage = ref('en');
 const isDropdownOpen = ref(false); 
 
 const changeLanguage = (language) => {

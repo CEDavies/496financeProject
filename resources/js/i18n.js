@@ -1,5 +1,4 @@
 import { createI18n } from 'vue-i18n';
-import { useI18n } from 'vue-i18n';
 
 // Define translations for each language
 const messages = {
@@ -38,25 +37,12 @@ const messages = {
   },
 };
 
-const changeLanguage = (language) => {
-  locale.value = language; // Update the i18n locale
-  localStorage.setItem('selectedLanguage', language); // Save to localStorage
-  console.log(`Language changed to: ${language}`);
-};
-
 // Create the Vue I18n instance
 const i18n = createI18n({
-  legacy:false,
+  legacy: false,
   locale: 'en', // Default language
   fallbackLocale: 'en', // Fallback language
   messages,
-});
-
-onMounted(() => {
-  const savedLanguage = localStorage.getItem('selectedLanguage');
-  if (savedLanguage) {
-    locale.value = savedLanguage; // Update the i18n locale
-  }
 });
 
 export default i18n;
