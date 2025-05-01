@@ -1,6 +1,7 @@
 import '../bootstrap';
 import InvestmentOpt from '../components/teacher/InvestmentOpt.vue';
 import { createApp } from 'vue';
+import i18n from '../i18n';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Routes for the Vue.js to use
@@ -26,5 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    app.use(i18n);
     app.mount('#teachInvestment');
 });
