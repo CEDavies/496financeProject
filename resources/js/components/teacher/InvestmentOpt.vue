@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios'; // Import Axios
+import { useI18n } from 'vue-i18n';
 
 // Setup the props
 const { homeRoute, manageStud, manageInvest, projectRoute, reportRoute } = defineProps({
@@ -120,8 +121,21 @@ const getInvest = async () => {
   }
 };
 
+const { locale } = useI18n();
+const isDropdownOpen = ref(false); 
+
+const changeLanguage = (language) => {
+  locale.value = language; // Update the i18n locale
+  localStorage.setItem('selectedLanguage', language); // Save to localStorage
+  console.log(`Language changed to: ${language}`);
+};
+
 onMounted(() => {
   getInvest();
+  const savedLanguage = localStorage.getItem('selectedLanguage');
+  if (savedLanguage) {
+    locale.value = savedLanguage; // Restore saved language
+  }
 });
 </script>
 
@@ -133,24 +147,36 @@ onMounted(() => {
   <nav class="bg-blue-600 p-4">
     <div class="flex items-center justify-between">
       <div class="text-white text-lg font-semibold">
-        Teacher Dashboard
+        {{ $t('welcome') }}
       </div>
       <div class="space-x-20">
-        <a type="button" :href="homeRoute" class="text-white hover:text-gray-300">Home</a>
-        <a type="button" :href="manageStud" class="text-white hover:text-gray-300">Manage Student</a>
-        <a type="button" :href="manageInvest" class="text-white hover:text-gray-300">Manage Investment Options</a>
-        <a type="button" :href="projectRoute" class="text-white hover:text-gray-300">Projects</a>
-        <a type="button" :href="reportRoute" class="text-white hover:text-gray-300">Reports</a>
+        <a type="button" :href="homeRoute" class="text-white hover:text-gray-300">{{ $t('home') }}</a>
+        <a type="button" :href="manageStud" class="text-white hover:text-gray-300">{{ $t('manageStudent') }}</a>
+        <a type="button" :href="manageInvest" class="text-white hover:text-gray-300">{{ $t('manageInvestment') }}</a>
+        <a type="button" :href="projectRoute" class="text-white hover:text-gray-300">{{ $t('projects') }}</a>
+        <a type="button" :href="reportRoute" class="text-white hover:text-gray-300">{{ $t('reports') }}</a>
       </div>
+      <div class="relative">
+      <button @click="isDropdownOpen = !isDropdownOpen" class="px-4 py-2 bg-blue-500 text-white rounded-md">
+        {{ $t('selectLanguage') }}
+      </button>
+      <div v-if="isDropdownOpen" class="mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+        <ul v-show="isDropdownOpen" class="dropdown-options">
+            <!----><li @click="changeLanguage('en')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">English</li>
+            <li @click="changeLanguage('es')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Spanish</li>
+            <li @click="changeLanguage('fr')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">French</li>
+          </ul>
+      </div>
+    </div>
       <button class="text-white bg-red-500 px-4 py-2 rounded-md hover:bg-red-600">
-        Signout
+        {{ $t('signout') }}
       </button>
     </div>
   </nav>
 
   <div class="relative h-screen flex justify-center bg-gray-100">
     <div class="relative z-20 py-10">
-      <h2 class="text-xl font-semibold mb-4">Investment Options</h2>
+      <h2 class="text-xl font-semibold mb-4">{{ $t('investmentOptions') }}</h2>
 
       <div class="flex space-x-6">
         <table class="w-full border-collapse">
@@ -203,7 +229,7 @@ onMounted(() => {
           </button>
 
           <div v-if="showAddForm">
-            <h2>Add New Investment</h2>
+            <h2>{{ $t('addInvestment') }}</h2>
             <form @submit.prevent="addInvestment">
               <div>
                 <label for="add-name">Investment Name</label>
