@@ -38,7 +38,8 @@ Route::get('auth/google/callback', function () {
 
     Auth::login($user);
 
-    return redirect('/dashboard'); // or wherever you want
+    // Redirect to Vue app to finish login
+    return redirect('http://localhost:5173/auth/callback');
 });
 
 Route::get('/dashboard', function () {
