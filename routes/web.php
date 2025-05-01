@@ -14,6 +14,11 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Http\Controllers\AuthController;
+
+Route::get('/auth/redirect', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);
+
 
 Route::get('auth/google', function () {
     return Socialite::driver('google')->redirect();
@@ -35,7 +40,8 @@ Route::get('auth/google/callback', function () {
 
     Auth::login($user);
 
-    return redirect('/dashboard'); // or wherever you want
+    // Redirect to Vue app to finish login
+    return redirect('http://localhost:5173/auth/callback');
 });
 
 Route::get('/dashboard', function () {
